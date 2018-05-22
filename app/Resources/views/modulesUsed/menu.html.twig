@@ -1,0 +1,115 @@
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">HTS</a>
+    </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li><a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-user fa-fw"></i>Profil</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+                <li>
+                    <a href="{{ path('users_default_index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('user_index') }}"><i class="fa fa-user fa-fw"></i> Gestion des Utilisateurs</a>
+                </li>
+                <li>
+                    <a href="{{ path('infomailing_index') }}"><i class="fa fa-user fa-fw"></i> Configuration de Mailer</a>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_COMMERCIAL') %}
+                <li>
+                    <a href="#"><i class="fa fa-users fa-fw"></i> Marketing<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ path('prospect_index') }}">Prospects</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('campagne_index') }}">Compagnes publicitaires</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('contact_index') }}">Contacts</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('organisation_index') }}">Organisations</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_VENTE') %}
+                <li>
+                    <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Ventes<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ path('produit_index') }}">Produits</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('service_index') }}">Services</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('devis_index') }}">Devis</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('facture_index') }}">Factures</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('commande_index') }}">Commandes Clients</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('affaire_index') }}">Gestion des affaires</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_CONTACT') %}
+                    <li>
+                        <a href="{{ path('consulter_affaire_index') }}"><i class="fa fa-shopping-cart fa-fw"></i> Consulter l'état des Affaires</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('ticketclient_index') }}"><i class="fa fa-support fa-fw"></i> Support</a>
+                </li>
+                <!-- /.navbar-static-side -->
+            </ul>
+        </div>
+    </div>
+</nav>

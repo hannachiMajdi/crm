@@ -1,0 +1,36 @@
+app_info_mailing:
+    resource: "@AppBundle/Controller/InfoMailingController.php"
+    type:     annotation
+
+app_ticket_client:
+    resource: "@AppBundle/Controller/TicketClientController.php"
+    type:     annotation
+
+app_facture:
+    resource: "@AppBundle/Controller/FactureController.php"
+    type:     annotation
+
+app_commande:
+    resource: "@AppBundle/Controller/CommandeController.php"
+    type:     annotation
+
+app_affaire:
+    resource: "@AppBundle/Controller/AffaireController.php"
+    type:     annotation
+
+users_user:
+    resource: "@UsersBundle/Controller/UserController.php"
+    type:     annotation
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+users:
+    resource: "@UsersBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

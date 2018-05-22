@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Ajouter un Devis
+{% endblock %}
+{% block body %}
+    <div id="wrapper">
+        {{ include('modulesUsed/menu.html.twig') }}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ajouter un Devis</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+                    {{ form_start(form) }}
+
+                    {% if form.affaire is defined  %}{{ form_row(form.affaire) }}{% endif %}
+                    {{ form_row(form.ref) }}
+                    {{ form_row(form.date) }}
+                    {{ form_row(form.services) }}
+
+                    <ul class="devisProduits" data-prototype="{{ form_widget(form.devisProduits.vars.prototype)|e('html_attr') }}"
+                        style="list-style: none;">
+                        {% for produit in form.devisProduits %}
+                            <li>
+                                {{ form_widget(produit) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+
+                    <div class=" row text-center">
+                        <a href="{{ path('devis_index') }}"  class="btn btn-primary">Retourner à la liste</a>
+                        <input type="submit" value="Ajouter"  class="btn btn-success"/>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('custom/devis_js.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Ticket Client
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        {{ include('modulesUsed/menu.html.twig') }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ ticketClient.titre }}
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ ticketClient.titre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Etat</th>
+                            <td>{{ ticketClient.etat }}</td>
+                        </tr>
+                        <tr>
+                            <th>type</th>
+                            <td>{{ ticketClient.type }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ ticketClient.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>{% if ticketClient.date %}{{ ticketClient.date|date('Y-m-d') }}{% endif %}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row text-center">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-success" href="{{ path('ticketclient_index') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                Liste des réclamations</a>
+                            <a type="button" class="btn btn-info" href="{{ path('ticketclient_edit', { 'id': ticketClient.id }) }}">Modifier</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}
+

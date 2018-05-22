@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Modifier un Service
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        {{ include('modulesUsed/menu.html.twig') }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Modifier un Service</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    {% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+                    {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <div class="row text-center">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-success" href="{{ path('service_index') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                Liste des Services</a>
+                            <input class="btn btn-primary" type="submit" value="Modifier" />
+                            {{ form_end(edit_form) }}
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Créer un Ticket Client
+{% endblock %}
+{% block body %}
+    <div id="wrapper">
+        {{ include('modulesUsed/menu.html.twig') }}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Créer un Ticket Client</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class=" row text-center">
+                        <a href="{{ path('ticketclient_index') }}"  class="btn btn-primary">Retourner à la liste</a>
+                        <input type="submit" value="Créer"  class="btn btn-success"/>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

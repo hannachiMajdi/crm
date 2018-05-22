@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Services
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        {{ include('modulesUsed/menu.html.twig') }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div><h1 class="page-header col-lg-10">Liste des Service</h1>
+                    <a href="{{ path('service_new') }}">
+                        <button type="button" class="page-header btn btn-primary">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            Ajouter un Service</button>
+                    </a>
+                </div>
+            </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>Ref</th>
+                                    <th>Nom</th>
+                                    <th>Prix</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for service in services %}
+                                    <tr class="odd gradeX">
+                                        <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.ref }}</a></td>
+                                        <td>{{ service.nom }}</td>
+                                        <td>{{ service.prix }}</td>
+                                        <td>{{ service.description }}</td>
+                                        <td class="center">
+                                            <a href="{{ path('service_show', { 'id': service.id }) }}">
+                                                <button type="button" class="btn btn-success btn-lg btn-block">Consulter
+                                                    <i class="fa fa-angle-double-right"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

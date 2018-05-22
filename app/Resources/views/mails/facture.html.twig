@@ -1,0 +1,62 @@
+<h3>facture N°{{ facture.ref }}</h3>
+<table>
+    <tbody>
+    {% if facture.affaire %}
+        <tr>
+            <th>Affaire</th>
+            <td>{{ facture.affaire }}</td>
+        </tr>
+        <tr>
+            <th>Contact</th>
+            <td>{{ facture.affaire.contact }}</td>
+        </tr>
+    {% endif %}
+    <tr>
+        <th>utilisateur</th>
+        <td>{{ facture.user.username }}</td>
+    </tr>
+    <tr>
+        <th>ref</th>
+        <td>{{ facture.ref }}</td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>{{ facture.date | date('d-m-Y') }}</td>
+    </tr>
+    <tr>
+        <th>Liste des Produits / Services</th>
+        <td>
+            <table class="table">
+                <thead>
+                <th>Produit / Service </th>
+                <th>Quantité</th>
+                <th>Prix Unitaire </th>
+                <th>Prix Total </th>
+                </thead>
+                <tbody>
+                {% for produit in facture.factureProduits %}
+                    <tr>
+                        <td>{{ produit.produit.nom }}</td>
+                        <td>{{ produit.quantite }}</td>
+                        <td>{{ produit.produit.prixUnit }} DT</td>
+                        <td>{{ produit.produit.prixUnit * produit.quantite }} DT</td>
+                    </tr>
+                {% endfor %}
+                {% for service in facture.services %}
+                    <tr>
+                        <td>{{ service.nom }}</td>
+                        <td>N/A</td>
+                        <td>{{ service.prix }} DT</td>
+                        <td>{{ service.prix }} DT</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <th>Prix Total</th>
+        <td class="text-right">{{ facture.prixtotal }} DT</td>
+    </tr>
+    </tbody>
+</table>

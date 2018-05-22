@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- DataTables CSS -->
+    <link href="{{ asset('template/vendor/datatables-plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{{ asset('template/vendor/datatables-responsive/dataTables.responsive.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('template/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ asset('template/vendor/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('template/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{{ asset('template/vendor/morrisjs/morris.css') }}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ asset('template/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+{% block body %}{% endblock %}
+
+<!-- jQuery -->
+<script src="{{ asset('template/vendor/jquery/jquery.min.js') }}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('template/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{{ asset('template/vendor/metisMenu/metisMenu.min.js') }}"></script>
+
+<!-- DataTables JavaScript -->
+<script src="{{ asset('template/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('template/vendor/datatables-plugins/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('template/vendor/datatables-responsive/dataTables.responsive.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
+<!-- Morris Charts JavaScript -->
+<script src="{{ asset('template/vendor/raphael/raphael.min.js') }}"></script>
+<script src="{{ asset('template/vendor/morrisjs/morris.min.js') }}"></script>
+<script src="{{ asset('template/data/morris-data.js') }}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{{ asset('template/dist/js/sb-admin-2.js') }}"></script>
+<script src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#pdf').on('click',function () {
+            var element = document.getElementById('element-to-print');
+            html2pdf(element, {
+                margin:       1,
+                filename:     'myfile.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { dpi: 192, letterRendering: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            });
+        })
+
+    });
+</script>
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

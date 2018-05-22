@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Modifier une facture
+{% endblock %}
+{% block body %}
+    <div id="wrapper">
+        {{ include('modulesUsed/menu.html.twig') }}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Modifier une facture</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    {% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+                    {{ form_start(edit_form) }}
+                    {% if edit_form.affaire is defined  %}{{ form_row(edit_form.affaire) }}{% endif %}
+                    {{ form_row(edit_form.ref) }}
+                    {{ form_row(edit_form.date) }}
+                    {{ form_row(edit_form.services,{'data':facture.services}) }}
+                    <ul class="factureProduits" data-prototype="{{ form_widget(edit_form.factureProduits.vars.prototype)|e('html_attr') }}"
+                        style="list-style: none;">
+                        {% for produit in edit_form.factureProduits %}
+                            <li>
+                                {{ form_widget(produit) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+
+                    <div class=" row text-center">
+                        <a href="{{ path('facture_index') }}"  class="btn btn-primary">Retourner à la liste</a>
+                        <input type="submit" value="Modifier"  class="btn btn-success"/>
+                    </div>
+                    {{ form_end(edit_form) }}
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('custom/facture_js.js') }}"></script>
+{% endblock %}

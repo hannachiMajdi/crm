@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ commande.ref }}
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        {{ include('modulesUsed/menu.html.twig') }}
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">  {{ commande.ref }}
+                        <div class="btn-toolbar pull-right ">
+                            <div class="btn-group">
+                                <a id="pdf" href="#" class="btn btn-primary">Exporter en PDF</a>
+                            </div>
+
+                        </div>
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="element-to-print">
+                        <div class="text-center"><h3>commande N°{{ commande.ref }}</h3></div>
+                        <table class="table">
+                            <tbody>
+                            {% if commande.affaire %}
+                                <tr>
+                                    <th>Affaire</th>
+                                    <td>{{ commande.affaire }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Contact</th>
+                                    <td>{{ commande.affaire.contact }}</td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <th>utilisateur</th>
+                                <td>{{ commande.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th>ref</th>
+                                <td>{{ commande.ref }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ commande.date | date('d-m-Y') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Liste des Produits / Services</th>
+                                <td>
+                                    <table class="table">
+                                        <thead>
+                                        <th>Produit / Service </th>
+                                        <th>Quantité</th>
+                                        <th>Prix Unitaire </th>
+                                        <th>Prix Total </th>
+                                        </thead>
+                                        <tbody>
+                                        {% for produit in commande.commandeProduits %}
+                                            <tr>
+                                                <td>{{ produit.produit.nom }}</td>
+                                                <td>{{ produit.quantite }}</td>
+                                                <td>{{ produit.produit.prixUnit }} DT</td>
+                                                <td>{{ produit.produit.prixUnit * produit.quantite }} DT</td>
+                                            </tr>
+                                        {% endfor %}
+                                        {% for service in commande.services %}
+                                            <tr>
+                                                <td>{{ service.nom }}</td>
+                                                <td>N/A</td>
+                                                <td>{{ service.prix }} DT</td>
+                                                <td>{{ service.prix }} DT</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Prix Total</th>
+                                <td class="text-right">{{ commande.prixtotal }} DT</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

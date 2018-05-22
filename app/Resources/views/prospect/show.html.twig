@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ prospect.nom }}
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        {{ include('modulesUsed/menu.html.twig') }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ prospect.nom }}
+                    <div class="btn-toolbar pull-right">
+                        {{ form_start(delete_form) }}
+                        <a href="{{ path('prospect_to_contact',{'id': prospect.id}) }}" class="btn btn-success">Transformer en contact</a>
+                        <input type="submit" type="button" class="btn btn-danger" value="Supprimer" onclick="alert('organisation supprimé!');">
+                        {{ form_end(delete_form) }}
+                    </div>
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Nom</th>
+                            <td>{{ prospect.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fonction</th>
+                            <td>{{ prospect.fonction }}</td>
+                        </tr>
+                        <tr>
+                            <th>Téléphone</th>
+                            <td>{{ prospect.tel }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ prospect.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Organisation</th>
+                            <td><a href="{{ path('organisation_show',{'id':prospect.organisation.id}) }}">{{ prospect.organisation }}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row text-center">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-success" href="{{ path('prospect_index') }}">
+                                <i class="fa fa-angle-double-left"></i>
+                                Liste des organisation</a>
+                            <a type="button" class="btn btn-info" href="{{ path('prospect_edit', { 'id': prospect.id }) }}">Modifier</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

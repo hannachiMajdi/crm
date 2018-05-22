@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    facture
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+
+        {{ include('modulesUsed/menu.html.twig') }}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div> <h1 class="page-header col-lg-10">Liste des facture</h1>
+                        <a href="{{ path('facture_new',{'id':'null'}) }}">
+                            <button type="button" class="page-header btn btn-primary">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                Ajouter une facture</button>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>ref</th>
+                                    <th>date</th>
+                                    <th>Prix totale</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for facture in factures %}
+                                    <tr>
+                                        <td>{{ facture.ref }}</td>
+                                        <td>{{ facture.date | date('d-m-Y') }}</td>
+                                        <td>{{ facture.prixTotal }}</td>
+                                        <td>
+                                            <a href="{{ path('facture_show', { 'id': facture.id }) }}">
+                                                <button type="button" class="btn btn-success btn-lg btn-block">Consulter
+                                                    <i class="fa fa-angle-double-right"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+{% endblock %}

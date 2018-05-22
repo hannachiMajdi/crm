@@ -1,0 +1,36 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="fos_user_user_show">
+    <div class="col-lg-12">
+        <table class="table">
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ app.user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ app.user.email }}</td>
+            </tr>
+            {% if app.user.contact %}
+                <tr>
+                    <th>Organisation</th>
+                    <td>{{ app.user.contact.organisation }}</td>
+                </tr>
+                <tr>
+                    <th>Fonction</th>
+                    <td>{{ app.user.contact.fonction }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ app.user.contact.tel }}</td>
+                </tr>
+            {% endif %}
+
+        </table>
+    </div>
+    <div class="col-lg-12 text-center">
+        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-success">Modifier</a>
+        <a href="{{ path('fos_user_change_password') }}"  class="btn btn-primary">Changer Password</a>
+    </div>
+
+</div>
