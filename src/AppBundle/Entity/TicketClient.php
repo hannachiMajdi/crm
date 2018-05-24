@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * TicketClient
@@ -25,46 +27,50 @@ class TicketClient
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le titre ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour le titre"
+     * )
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le type ne doit pas étre vide !")
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'etat  ne doit pas étre vide !")
      * @ORM\Column(name="etat", type="string", length=255)
      */
     private $etat;
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'etat  ne doit pas étre vide !")
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank(message="la date  ne doit pas étre vide !")
      * @ORM\Column(name="date", type="date")
      */
     private $date;
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="ticketClients")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Contact", inversedBy="ticketClients")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id",nullable=false)
      */
     private $contact;
 

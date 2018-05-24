@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Campagne
@@ -25,21 +26,30 @@ class Campagne
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour Le nom"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="le nom ne peut pas contenir un nombre"
+     * )
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank(message="La date ne doit pas étre vide !")
      * @ORM\Column(name="date", type="date")
      */
     private $date;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'etat  ne doit pas étre vide !")
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
@@ -59,7 +69,7 @@ class Campagne
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="ticketClients")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id",nullable=true , onDelete="SET NULL")
      */
     private $user;
 

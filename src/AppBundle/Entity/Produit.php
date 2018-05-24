@@ -4,12 +4,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Produit
  *
  * @ORM\Table(name="produit")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProduitRepository")
+ * @UniqueEntity(
+ *     fields="ref",
+ *     errorPath="ref",
+ *     message="La référence existe déja !"
+ * )
  */
 class Produit
 {
@@ -24,21 +31,30 @@ class Produit
 
     /**
      * @var string
+     * @Assert\NotBlank(message="La référence ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour la référence long"
      *
-     * @ORM\Column(name="ref", type="string", length=255, unique=true, nullable=true)
+     * )
+     * @ORM\Column(name="ref", type="string", length=255, unique=true)
      */
     private $ref;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour Le nom"
+     * )
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="Le prix unitaire ne doit pas étre vide !")
      * @ORM\Column(name="PrixUnit", type="float")
      */
     private $prixUnit;
@@ -46,27 +62,27 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="Description", type="string", length=255)
+     * @ORM\Column(name="Description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="CommandeProduit", mappedBy="produit", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="CommandeProduit", mappedBy="produit", fetch="EXTRA_LAZY", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $commandeProduits;
 
     /**
-     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="produit", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="produit", fetch="EXTRA_LAZY", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $devisProduits;
     /**
-     * @ORM\OneToMany(targetEntity="FactureProduit", mappedBy="produit", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="FactureProduit", mappedBy="produit", fetch="EXTRA_LAZY", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $factureProduits;
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="produits")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;
 

@@ -5,12 +5,19 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Devis
  *
  * @ORM\Table(name="devis")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DevisRepository")
+ * @UniqueEntity(
+ *     fields="ref",
+ *     errorPath="ref",
+ *     message="La référence existe déja !"
+ * )
  */
 class Devis
 {
@@ -25,14 +32,19 @@ class Devis
 
     /**
      * @var string
+     * @Assert\NotBlank(message="La référence ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour la référence long",
      *
-     * @ORM\Column(name="ref", type="string", length=255)
+     * )
+     * @ORM\Column(name="ref", type="string", length=255, unique=true)
      */
     private $ref;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank(message="La date ne doit pas étre vide !")
      * @ORM\Column(name="date", type="date")
      */
     private $date;
@@ -45,24 +57,24 @@ class Devis
 
 
     /**
-     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="devis", cascade={"persist"} )
+     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="devis", cascade={"persist", "remove", "merge"} )
      */
     private $devisProduits;
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Service", mappedBy="deviss", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Service", mappedBy="deviss", cascade={"persist", "remove", "merge"})
      */
     private $services;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Affaire", mappedBy="devis")
+     * @ORM\OneToOne(targetEntity="Affaire", mappedBy="devis", cascade={"persist", "remove", "merge"})
      */
     private $affaire;
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="deviss")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     private $user;
 

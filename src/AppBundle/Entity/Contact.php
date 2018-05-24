@@ -4,12 +4,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Contact
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ * @UniqueEntity(
+ *     fields="email",
+ *     errorPath="email",
+ *     message="L'email existe déja !"
+ * )
  */
 class Contact
 {
@@ -24,60 +31,79 @@ class Contact
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour Le nom"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="le nom ne peut pas contenir un nombre"
+     * )
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="La fonction ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour La fonction"
+     * )
      * @ORM\Column(name="fonction", type="string", length=255)
      */
     private $fonction;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="tel", type="integer")
+     * @var string
+     * @Assert\NotBlank(message="Le N° de tel ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 8,
+     *      minMessage = "Mininmum 8 caractéres pour N° de tel"
+     * )
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="Seulement des chiffres")
+     * @ORM\Column(name="tel", type="string",length=30)
      */
     private $tel;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'email ne doit pas étre vide !")
+     * @Assert\Email(message="Email n'est pas valide")
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="UsersBundle\Entity\User", inversedBy="contact")
+     * @ORM\OneToOne(targetEntity="UsersBundle\Entity\User", inversedBy="contact", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Organisation", inversedBy="contacts")
-     * @ORM\JoinColumn(name="organisation_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="organisation_id", referencedColumnName="id",nullable=true)
      */
     private $organisation;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Campagne", inversedBy="contacts")
-     * @ORM\JoinColumn(name="campagne_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="campagne_id", referencedColumnName="id",nullable=true)
      */
     private $campagne;
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Affaire", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="Affaire", mappedBy="contact", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $affaires;
     /**
      *
-     * @ORM\OneToMany(targetEntity="TicketClient", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="TicketClient", mappedBy="contact", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $ticketClients;
 
@@ -153,7 +179,7 @@ class Contact
     /**
      * Set tel
      *
-     * @param integer $tel
+     * @param string $tel
      *
      * @return Contact
      */
@@ -167,7 +193,7 @@ class Contact
     /**
      * Get tel
      *
-     * @return int
+     * @return string
      */
     public function getTel()
     {

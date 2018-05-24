@@ -6,10 +6,22 @@ namespace UsersBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
+ * @UniqueEntity(
+ *     fields="usernameCanonical",
+ *     errorPath="username",
+ *     message="Le pseudo existe déja !"
+ * )
+ * @UniqueEntity(
+ *     fields="emailCanonical",
+ *     errorPath="email",
+ *     message="l'email exisite déja  !"
+ * )
  */
 class User extends BaseUser
 {
@@ -22,52 +34,52 @@ class User extends BaseUser
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Contact", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Contact", mappedBy="user", cascade={"persist", "remove"})
      */
     private $contact;
     /**
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\InfoMailing", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\InfoMailing", mappedBy="user", cascade={"persist", "remove"})
      */
     private $mailing;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Affaire", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Affaire", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $affaires;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Commande", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $commandes;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Devis", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Devis", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $deviss;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Facture", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Facture", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $factures;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Produit", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $produits;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Service", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $services;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TicketClient", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TicketClient", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $ticketClients;
     /**
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Prospect", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Prospect", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $prospects;
 
@@ -145,6 +157,7 @@ class User extends BaseUser
      */
     public function addAffaire(\AppBundle\Entity\Affaire $affaire)
     {
+
         $this->affaires[] = $affaire;
 
         return $this;

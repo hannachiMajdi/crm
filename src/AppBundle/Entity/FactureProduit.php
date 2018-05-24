@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * FactureProduit
  *
@@ -23,7 +23,7 @@ class FactureProduit
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank(message="La quantité ne doit pas étre vide !")
      * @ORM\Column(name="quantite", type="integer")
      */
     private $quantite;

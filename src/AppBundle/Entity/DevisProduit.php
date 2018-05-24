@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * DevisProduit
@@ -23,7 +24,7 @@ class DevisProduit
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank(message="La quantité ne doit pas étre vide !")
      * @ORM\Column(name="quantite", type="integer")
      */
     private $quantite;
@@ -36,7 +37,7 @@ class DevisProduit
 
     /**
      * @ORM\ManyToOne(targetEntity="Devis", inversedBy="devisProduits")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $devis;
     /**

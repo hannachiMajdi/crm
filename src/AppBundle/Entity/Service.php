@@ -5,12 +5,19 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Service
  *
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ServiceRepository")
+ * @UniqueEntity(
+ *     fields="ref",
+ *     errorPath="ref",
+ *     message="La référence existe déja !"
+ * )
  */
 class Service
 {
@@ -25,21 +32,29 @@ class Service
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="La référence ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour la référence long"
+     * )
      * @ORM\Column(name="ref", type="string", length=255)
      */
     private $ref;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour Le nom"
+     * )
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="Le prix unitaire ne doit pas étre vide !")
      * @ORM\Column(name="prix", type="float")
      */
     private $prix;
@@ -55,12 +70,12 @@ class Service
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="produits")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id",nullable=true , onDelete="SET NULL")
      */
     private $user;
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Devis", inversedBy="services", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Devis", inversedBy="services", cascade={"persist", "remove", "merge"})
      *
      * @ORM\JoinTable(name="devis_service",
      *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
@@ -70,15 +85,19 @@ class Service
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Facture", inversedBy="services", cascade={"persist"})
-     * @ORM\JoinTable(name="facture_service")
+     * @ORM\ManyToMany(targetEntity="Facture", inversedBy="services", cascade={"persist", "remove", "merge"})
+     * @ORM\JoinTable(name="facture_service",
+     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="devis_id", referencedColumnName="id", onDelete="CASCADE")})
      */
     private $factures;
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Commande", inversedBy="services")
-     * @ORM\JoinTable(name="commande_service")
+     * @ORM\ManyToMany(targetEntity="Commande", inversedBy="services", cascade={"persist", "remove", "merge"})
+     * @ORM\JoinTable(name="commande_service",
+     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="devis_id", referencedColumnName="id", onDelete="CASCADE")})
      */
     private $commandes;
 

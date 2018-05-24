@@ -3,12 +3,19 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * InfoMailing
  *
  * @ORM\Table(name="info_mailing")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\InfoMailingRepository")
+ * @UniqueEntity(
+ *     fields="emailPrincipale",
+ *     errorPath="emailPrincipale",
+ *     message="L'email existe déja !"
+ * )
  */
 class InfoMailing
 {
@@ -23,22 +30,23 @@ class InfoMailing
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="email_principale", type="string", length=255)
+     * @Assert\NotBlank(message="L'email ne doit pas étre vide !")
+     * @Assert\Email(message="Email n'est pas valide")
+     * @ORM\Column(name="email_principale", type="string", length=255,unique=true)
      */
     private $emailPrincipale;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="email_secondaire", type="string", length=255)
+     * @Assert\Email(message="Email n'est pas valide")
+     * @ORM\Column(name="email_secondaire", type="string", length=255,nullable=true)
      */
     private $emailSecondaire;
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="UsersBundle\Entity\User", inversedBy="mailing")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="UsersBundle\Entity\User", inversedBy="mailing", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $user;
 

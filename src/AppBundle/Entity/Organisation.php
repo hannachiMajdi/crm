@@ -2,13 +2,22 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Organisation
  *
  * @ORM\Table(name="organisation")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrganisationRepository")
+ * @UniqueEntity(
+ *     fields="email",
+ *     errorPath="email",
+ *     message="L'email existe déja !"
+ * )
+ *
  */
 class Organisation
 {
@@ -23,39 +32,67 @@ class Organisation
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le nom ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour Le nom"
+     * )
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="tel", type="integer")
+     * @var string
+     * @Assert\NotBlank(message="Le N° de tel ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 8,
+     *      minMessage = "Mininmum 8 caractéres pour N° de tel"
+     * )
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="Seulement des chiffres")
+     * @ORM\Column(name="tel", type="string",length=30)
      */
     private $tel;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'email ne doit pas étre vide !")
+     * @Assert\Email(message="Email n'est pas valide")
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="siteweb", type="string", length=255)
+     * @Assert\Url(message="url du siteweb non valide")
+     * @ORM\Column(name="siteweb", type="string", length=255, nullable=true)
      */
     private $siteweb;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Le Secteur de tel ne doit pas étre vide !")
      * @ORM\Column(name="secteur", type="string", length=255)
      */
     private $secteur;
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Contact", mappedBy="organisation", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $contacts;
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Prospect", mappedBy="organisation", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $prospects;
 
+    /**
+     * Organisation constructor.
+     */
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+        $this->prospects = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -94,7 +131,7 @@ class Organisation
     /**
      * Set tel
      *
-     * @param integer $tel
+     * @param string $tel
      *
      * @return Organisation
      */
@@ -108,7 +145,7 @@ class Organisation
     /**
      * Get tel
      *
-     * @return int
+     * @return string
      */
     public function getTel()
     {

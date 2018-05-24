@@ -4,12 +4,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use UsersBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Affaire
  *
  * @ORM\Table(name="affaire")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AffaireRepository")
+ * @UniqueEntity(
+ *     fields="ref",
+ *     errorPath="ref",
+ *     message="La référence existe déja !"
+ * )
  */
 class Affaire
 {
@@ -24,14 +31,18 @@ class Affaire
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="La référence ne doit pas étre vide !")
+     * @Assert\Length(
+     *      min = 2,
+     *      minMessage = "Mininmum 2 caractéres pour la référence long"
+     * )
      * @ORM\Column(name="ref", type="string", length=255)
      */
     private $ref;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="L'etat  ne doit pas étre vide !")
      * @ORM\Column(name="etat", type="string", length=255)
      */
     private $etat;
@@ -39,26 +50,26 @@ class Affaire
     /**
      *
      * @ORM\ManyToOne(targetEntity="Contact", inversedBy="affaires")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id",onDelete="SET NULL")
      */
     private $contact;
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Commande", inversedBy="affaire")
+     * @ORM\OneToOne(targetEntity="Commande", inversedBy="affaire", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="commande_id", referencedColumnName="id",nullable=true)
      */
     private $commande;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Devis", inversedBy="affaire")
+     * @ORM\OneToOne(targetEntity="Devis", inversedBy="affaire", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="devis_id", referencedColumnName="id",nullable=true)
      */
     private $devis;
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Facture", inversedBy="affaire")
+     * @ORM\OneToOne(targetEntity="Facture", inversedBy="affaire", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="facture_id", referencedColumnName="id",nullable=true)
      */
     private $facture;
@@ -66,7 +77,7 @@ class Affaire
     /**
      *
      * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="affaires")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id",nullable=true,onDelete="SET NULL")
      */
     private $user;
 
