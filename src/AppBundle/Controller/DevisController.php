@@ -36,17 +36,13 @@ class DevisController extends Controller
     /**
      * Creates a new devi entity.
      *
-     * @Route("/new/{id}", name="devis_new")
+     * @Route("/new", name="devis_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request,Affaire $affaire = null)
+    public function newAction(Request $request)
     {
         $devis = new Devis($this->getUser());
         $form = $this->createForm('AppBundle\Form\DevisType', $devis);
-        if($affaire){
-            $form->remove('affaire');
-            $affaire->setDevis($devis);
-        }
         $form->handleRequest($request);
 
 
@@ -62,7 +58,17 @@ class DevisController extends Controller
                 $prixtotal += $service->getPrix();
             }
             $devis->setPrixtotal($prixtotal);
+            //creation de l'affaire
+
+            $affaire = new Affaire($this->getUser());
+            $affaire->setContact($form->get('contact')->getData());
+            $affaire->setRef($devis->getRef());
+            $affaire->setEtat('En attente');
+            $devis->setAffaire($affaire);
             $em->persist($devis);
+            $em->persist($affaire);
+            $this->addFlash('success','Devis crée');
+            $this->addFlash('success','Affaire crée');
             $em->flush();
             /*
          $mailers = $em->getRepository(InfoMailing::class)->findAll();
@@ -119,8 +125,8 @@ class DevisController extends Controller
     {
         $deleteForm = $this->createDeleteForm($devis);
         $editForm = $this->createForm('AppBundle\Form\DevisType', $devis);
+        $editForm->remove('contact');
         $editForm->handleRequest($request);
-
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em =  $this->getDoctrine()->getManager() ;
@@ -149,10 +155,11 @@ class DevisController extends Controller
             }*/
 
             $devis->setPrixtotal($prixtotal);
+            $devis->getAffaire()->setRef($devis->getRef());
             $em->persist($devis);
 
             $em->flush();
-
+            $this->addFlash('success','devis modifié');
             return $this->redirectToRoute('devis_show', array('id' => $devis->getId()));
         }
 
@@ -178,6 +185,7 @@ class DevisController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($devis);
             $em->flush($devis);
+            $this->addFlash('error','devis supprimé');
         }
 
         return $this->redirectToRoute('devis_index');

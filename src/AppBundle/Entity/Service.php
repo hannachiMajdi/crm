@@ -55,6 +55,7 @@ class Service
     /**
      * @var float
      * @Assert\NotBlank(message="Le prix unitaire ne doit pas étre vide !")
+     *
      * @ORM\Column(name="prix", type="float")
      */
     private $prix;
@@ -69,7 +70,7 @@ class Service
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="services")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id",nullable=true , onDelete="SET NULL")
      */
     private $user;
@@ -78,7 +79,7 @@ class Service
      * @ORM\ManyToMany(targetEntity="Devis", inversedBy="services", cascade={"persist", "remove", "merge"})
      *
      * @ORM\JoinTable(name="devis_service",
-     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="devis_id", referencedColumnName="id", onDelete="CASCADE")})
      */
     private $deviss;
@@ -87,7 +88,7 @@ class Service
      *
      * @ORM\ManyToMany(targetEntity="Facture", inversedBy="services", cascade={"persist", "remove", "merge"})
      * @ORM\JoinTable(name="facture_service",
-     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="devis_id", referencedColumnName="id", onDelete="CASCADE")})
      */
     private $factures;
@@ -96,7 +97,7 @@ class Service
      *
      * @ORM\ManyToMany(targetEntity="Commande", inversedBy="services", cascade={"persist", "remove", "merge"})
      * @ORM\JoinTable(name="commande_service",
-     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="devis_id", referencedColumnName="id", onDelete="CASCADE")})
      */
     private $commandes;

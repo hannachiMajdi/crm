@@ -91,7 +91,7 @@ class Prospect
     private $campagne;
     /**
      *
-     * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity="UsersBundle\Entity\User", inversedBy="prospects")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;

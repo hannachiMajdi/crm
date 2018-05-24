@@ -39,7 +39,8 @@
                         </a>
                     </div>
                 </div>#}
-                <div class="col-lg-4 col-md-6">
+                {% if is_granted('ROLE_VENTE') %}
+                <div class="col-lg-3 col-md-6">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -47,12 +48,12 @@
                                     <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div class="huge">{{ produits }}</div>
+                                    <div>Produits !</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="{{ path('produit_index') }}">
                             <div class="panel-footer">
                                 <span class="pull-left">Consulter</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -61,7 +62,29 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ affaires }}</div>
+                                    <div>affaires !</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ path('affaire_index') }}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Consulter</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -69,12 +92,12 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div class="huge">{{ services }}</div>
+                                    <div>services!</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="{{ path('service_index') }}">
                             <div class="panel-footer">
                                 <span class="pull-left">Consulter</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -83,7 +106,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -91,12 +114,12 @@
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
+                                    <div class="huge">{{ tickets }}</div>
                                     <div>Support Tickets!</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="{{ path('ticketclient_index') }}">
                             <div class="panel-footer">
                                 <span class="pull-left">Consulter</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -105,10 +128,347 @@
                         </a>
                     </div>
                 </div>
+                {% endif %}
+                {% if is_granted('ROLE_COMMERCIAL') %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Organisations }}</div>
+                                        <div>Organisations !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('organisation_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Contacts }}</div>
+                                        <div>Contacts !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('contact_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Prospects }}</div>
+                                        <div>Prospects!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('prospect_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Campagnes }}</div>
+                                        <div>Campagnes!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('campagne_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ tickets }}</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('ticketclient_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ produits }}</div>
+                                        <div>Produits !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('produit_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ affaires }}</div>
+                                        <div>affaires !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('affaire_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ services }}</div>
+                                        <div>services!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('service_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Organisations }}</div>
+                                        <div>Organisations !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('organisation_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Contacts }}</div>
+                                        <div>Contacts !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('contact_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Prospects }}</div>
+                                        <div>Prospects!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('prospect_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ Campagnes }}</div>
+                                        <div>Campagnes!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('campagne_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ tickets }}</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('ticketclient_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if is_granted('ROLE_CONTACT') %}
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ affaires }}</div>
+                                        <div>affaires!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('service_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{ tickets }}</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('ticketclient_index') }}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Consulter</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <!-- /#page-wrapper -->
-
     </div>
 {% endblock %}
 

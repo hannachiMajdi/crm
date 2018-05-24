@@ -29,7 +29,7 @@ class UserType extends AbstractType
                 ),
                 'first_options' => array('label' => 'Mots de passe'),
                 'second_options' => array('label' => 'Répéter mots de passe'),
-                'invalid_message' => 'fos_user.password.mismatch',
+                'invalid_message' => 'Les deux mots de passe ne sont identiques',
             ))
             ->add('roles', ChoiceType::class, array('choices' =>
                 array(

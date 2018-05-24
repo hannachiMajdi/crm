@@ -2,10 +2,20 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Affaire;
+use AppBundle\Entity\Campagne;
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Commande;
 use AppBundle\Entity\Contact;
+use AppBundle\Entity\Devis;
+use AppBundle\Entity\Facture;
 use AppBundle\Entity\InfoMailing;
+use AppBundle\Entity\Organisation;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Produit;
+use AppBundle\Entity\Prospect;
+use AppBundle\Entity\Service;
+use AppBundle\Entity\TicketClient;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,43 +33,81 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $securityContext = $this->container->get('security.authorization_checker');
+    /*    $securityContext = $this->container->get('security.authorization_checker');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             return $this->render('@App/Default/index.html.twig');
+
+        }*/
+    if($this->isGranted('ROLE_VENTE')){
+        $em = $this->getDoctrine()->getManager();
+        $produits = count($em->getRepository(Produit::class)->findAll());
+        $services = count($em->getRepository(Service::class)->findAll());
+        $affaires = count($em->getRepository(Affaire::class)->findAll());
+        $tickets = count($em->getRepository(TicketClient::class)->findAll());
+
+        return $this->render('@App/Default/index.html.twig',
+            array(
+                'produits'=>$produits,
+                'services'=>$services,
+                'affaires'=>$affaires,
+                'tickets'=>$tickets,
+            ));
+    }
+        if($this->isGranted('ROLE_COMMERCIAL')){
+            $em = $this->getDoctrine()->getManager();
+            $Organisations = count($em->getRepository(Organisation::class)->findAll());
+            $Contacts = count($em->getRepository(Contact::class)->findAll());
+            $Prospects = count($em->getRepository(Prospect::class)->findAll());
+            $Campagnes = count($em->getRepository(Campagne::class)->findAll());
+            $tickets = count($em->getRepository(TicketClient::class)->findAll());
+
+            return $this->render('@App/Default/index.html.twig',
+                array(
+                    'Organisations'=>$Organisations,
+                    'Contacts'=>$Contacts,
+                    'Prospects'=>$Prospects,
+                    'Campagnes'=>$Campagnes,
+                    'tickets'=>$tickets,
+                ));
+        }
+        if($this->isGranted('ROLE_ADMIN')){
+            $em = $this->getDoctrine()->getManager();
+            $produits = count($em->getRepository(Produit::class)->findAll());
+            $services = count($em->getRepository(Service::class)->findAll());
+            $affaires = count($em->getRepository(Affaire::class)->findAll());
+            $Organisations = count($em->getRepository(Organisation::class)->findAll());
+            $Contacts = count($em->getRepository(Contact::class)->findAll());
+            $Prospects = count($em->getRepository(Prospect::class)->findAll());
+            $Campagnes = count($em->getRepository(Campagne::class)->findAll());
+            $tickets = count($em->getRepository(TicketClient::class)->findAll());
+
+            return $this->render('@App/Default/index.html.twig',
+                array(
+                    'produits'=>$produits,
+                    'services'=>$services,
+                    'affaires'=>$affaires,
+                    'Organisations'=>$Organisations,
+                    'Contacts'=>$Contacts,
+                    'Prospects'=>$Prospects,
+                    'Campagnes'=>$Campagnes,
+                    'tickets'=>$tickets,
+                ));
+        }
+        if($this->isGranted('ROLE_CONTACT')){
+            $em = $this->getDoctrine()->getManager();
+            $affaires = count($em->getRepository(Affaire::class)->findBy(['contact'=>$this->getUser()]));
+
+            $tickets = count($em->getRepository(TicketClient::class)->findAll());
+
+            return $this->render('@App/Default/index.html.twig',
+                array(
+
+                    'affaires'=>$affaires,
+
+                    'tickets'=>$tickets,
+                ));
         }
         return $this->redirectToRoute('fos_user_security_login');
     }
-    /**
-     * @Route("/mailer",name="ffdsf")
-     */
-    public function mailertestAction()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $contact = $em->getRepository(Contact::class)->find(2);
-        $password = 'password';
-
-
-
-        $mailers = $em->getRepository(InfoMailing::class)->findAll();
-        $mailer = $mailers[0];
-        $message =  \Swift_Message::newInstance()
-            ->setSubject('Alerte Déclenché')
-            ->setFrom($mailer->getEmailPrincipale())
-            ->setTo('majdi.hannachi.17.10.1995@gmail.com')
-            ->setBody(
-                $this->renderView(
-
-                    'mails/password.html.twig',
-                    array(
-                        'contact'=>$contact,
-                        'password' => $password
-                    )
-                ),
-                'text/html'
-            )
-        ;
-        $this->get('mailer')->send($message);
-        return $this->get('mailer')->send($message);
-    }
 }

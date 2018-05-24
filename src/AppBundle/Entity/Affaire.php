@@ -56,21 +56,21 @@ class Affaire
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Commande", inversedBy="affaire", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="commande_id", referencedColumnName="id",nullable=true)
+     * @ORM\OneToOne(targetEntity="Commande", mappedBy="affaire", cascade={"persist", "remove"})
+     *
      */
     private $commande;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Devis", inversedBy="affaire", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="devis_id", referencedColumnName="id",nullable=true)
+     * @ORM\OneToOne(targetEntity="Devis", mappedBy="affaire", cascade={"persist", "remove"})
+     *
      */
     private $devis;
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Facture", inversedBy="affaire", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="facture_id", referencedColumnName="id",nullable=true)
+     * @ORM\OneToOne(targetEntity="Facture", mappedBy="affaire", cascade={"persist", "remove"})
+     *
      */
     private $facture;
 

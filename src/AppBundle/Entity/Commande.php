@@ -61,12 +61,13 @@ class Commande
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Service", mappedBy="commandes", cascade={"persist", "remove", "merge"} )
+     * @ORM\ManyToMany(targetEntity="Service", mappedBy="commandes" )
      */
     private $services;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Affaire", mappedBy="commande", cascade={"persist", "remove"} )
+     * @ORM\OneToOne(targetEntity="Affaire", inversedBy="commande", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(name="affaire_id", referencedColumnName="id",nullable=true)
      */
     private $affaire;
     /**

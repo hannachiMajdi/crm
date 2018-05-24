@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\TicketClient;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use UsersBundle\Entity\User;
+use UsersBundle\Form\UserType;
 
 /**
  * Ticketclient controller.
@@ -42,6 +45,11 @@ class TicketClientController extends Controller
     {
         $ticketClient = new Ticketclient($this->getUser());
         $form = $this->createForm('AppBundle\Form\TicketClientType', $ticketClient);
+        if($this->isGranted('ROLE_CANDIDAT')){
+            $form->remove('contact');
+            $ticketClient->setContact($this->getUser());
+        }
+
         $form->remove('etat');
 
         $form->handleRequest($request);
@@ -51,7 +59,7 @@ class TicketClientController extends Controller
             $ticketClient->setEtat('en attente');
             $em->persist($ticketClient);
             $em->flush($ticketClient);
-
+            $this->addFlash('success','ticket client ajouté');
             return $this->redirectToRoute('ticketclient_show', array('id' => $ticketClient->getId()));
         }
 
@@ -90,6 +98,7 @@ class TicketClientController extends Controller
         $editForm->handleRequest($request);
         if($this->isGranted('ROLE_CONTACT')){
             $editForm->remove('etat');
+            $editForm->remove('contact');
         }else{
             $editForm->remove('titre');
             $editForm->remove('description');
@@ -100,7 +109,7 @@ class TicketClientController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success','ticket client modifié');
             return $this->redirectToRoute('ticketclient_edit', array('id' => $ticketClient->getId()));
         }
 
@@ -126,9 +135,41 @@ class TicketClientController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($ticketClient);
             $em->flush($ticketClient);
+            $this->addFlash('error','ticket client supprimé');
         }
 
         return $this->redirectToRoute('ticketclient_index');
+    }
+    /**
+     * Deletes a ticketClient entity.
+     *
+     * @Route("/{id}/renseigner", name="ticketclient_renseigner")
+     * @Method({"GET", "POST"})
+     */
+    public function renseignerAction(Request $request, TicketClient $ticketClient)
+    {
+        $form = $this->createFormBuilder()
+            ->add('agent',EntityType::class,
+                array(
+                    'class' => User::class,
+                    )
+
+            )->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+           $ticketClient->setUser($form->get('agent')->getData());
+            $em->flush($ticketClient);
+            $this->addFlash('success','ticket client renseignée');
+            return $this->redirectToRoute('ticketclient_index');
+        }
+
+        return $this->render('ticketclient/renseigner.html.twig', array(
+            'ticketClient' => $ticketClient,
+            'form' => $form->createView(),
+
+        ));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Affaire;
+use AppBundle\Entity\Contact;
 use AppBundle\Entity\Service;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -31,11 +31,14 @@ class CommandeType extends AbstractType
             ->add('services', EntityType::class, array(
                 'class' => Service::class,
                 'multiple'=>true,
+                'required'=> false
             ))
-            ->add('affaire', EntityType::class, array(
-                'class' => Affaire::class,
+            ->add('contact', EntityType::class, array(
+                'class' => Contact::class,
+                'mapped'=> false
             ))
-        ;    }
+        ;
+    }
     
     /**
      * {@inheritdoc}

@@ -66,7 +66,8 @@ class ContactController extends Controller
             $em->persist($contact);
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success','Contact ajouté');
+            $this->addFlash('success','Contact ajouté avec le mots de passe '.$password);
+            var_dump($password);
 /*
             $mailers = $em->getRepository(InfoMailing::class)->findAll();
             $mailer = $mailers[0];
@@ -130,6 +131,7 @@ class ContactController extends Controller
             $user = $contact->getUser();
             // user creation
             if(is_null($contact->getUser())){
+
                 $user = new User();
                 $tokenGenerator = $this->container->get('fos_user.util.token_generator');
                 $password = substr($tokenGenerator->generateToken(), 0, 12);
@@ -138,7 +140,7 @@ class ContactController extends Controller
                 $user->setPassword($encoder->encodePassword($user->getPlainPassword(),$user->getSalt()));
                 $user->setEnabled(true);
                 $user->addRole('ROLE_CONTACT');
-                $this->getDoctrine()->getManager()->persist($user);
+                $contact->setUser($user);
             }
 
             $username = $editForm->get('username')->getData();
@@ -149,6 +151,7 @@ class ContactController extends Controller
             $user->setEmailCanonical(strtolower($contact->getEmail()));
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success','Contact modifié');
             /*
             $mailers = $em->getRepository(InfoMailing::class)->findAll();
             $mailer = $mailers[0];
@@ -194,6 +197,7 @@ class ContactController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($contact);
             $em->flush($contact);
+            $this->addFlash('error','Contact supprimé');
         }
 
         return $this->redirectToRoute('contact_index');

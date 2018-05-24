@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\InfoMailing;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Infomailing controller.
@@ -22,8 +23,37 @@ class InfoMailingController extends Controller
      */
     public function indexAction()
     {
-        return $this->redirectToRoute('infomailing_edit', array('id' => 1));
+        if($this->getUser()->getMailing())
+            return $this->redirectToRoute('infomailing_edit', array('id' => 1));
+        else
+            return $this->redirectToRoute('infomailing_new');
+    }
+    /**
+     * Displays a form to create an existing infoMailing entity.
+     *
+     * @Route("/new", name="infomailing_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $infoMailing = new InfoMailing();
+        $form = $this->createForm('AppBundle\Form\InfoMailingType', $infoMailing);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $infoMailing->setUser($this->getUser());
+            $em->persist($infoMailing);
+            $em->flush();
+            $this->addFlash('success', 'Email enregistré');
+
+            return $this->redirectToRoute('infomailing_show', array('id' => $infoMailing->getId()));
+        }
+
+        return $this->render('infomailing/new.html.twig', array(
+            'infoMailing' => $infoMailing,
+            'form' => $form->createView(),
+        ));
     }
 
     /**
@@ -52,7 +82,7 @@ class InfoMailingController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', 'Email modifié');
             return $this->redirectToRoute('infomailing_show', array('id' => $infoMailing->getId()));
         }
 

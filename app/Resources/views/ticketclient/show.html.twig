@@ -48,6 +48,9 @@
                             <a type="button" class="btn btn-success" href="{{ path('ticketclient_index') }}">
                                 <i class="fa fa-angle-double-left"></i>
                                 Liste des réclamations</a>
+                            <a type="button" class="btn btn-primary" href="{{ path('ticketclient_renseigner', { 'id': ticketClient.id }) }}">
+
+                               Renseigner à un autre agent</a>
                             <a type="button" class="btn btn-info" href="{{ path('ticketclient_edit', { 'id': ticketClient.id }) }}">Modifier</a>
                         </div>
                     </div>

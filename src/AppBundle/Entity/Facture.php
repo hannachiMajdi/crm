@@ -63,12 +63,13 @@ class Facture
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Service", mappedBy="factures", cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToMany(targetEntity="Service", mappedBy="factures")
      */
     private $services;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Affaire", mappedBy="facture", cascade={"persist", "remove", "merge"})
+     * @ORM\OneToOne(targetEntity="Affaire", inversedBy="facture", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="affaire_id", referencedColumnName="id",nullable=true)
      */
     private $affaire;
     /**

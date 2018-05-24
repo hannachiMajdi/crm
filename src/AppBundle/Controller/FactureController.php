@@ -36,17 +36,13 @@ class FactureController extends Controller
     /**
      * Creates a new devi entity.
      *
-     * @Route("/new/{id}", name="facture_new")
+     * @Route("/new", name="facture_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request,Affaire $affaire = null)
+    public function newAction(Request $request)
     {
         $facture = new Facture($this->getUser());
         $form = $this->createForm('AppBundle\Form\FactureType', $facture);
-        if($affaire){
-            $form->remove('affaire');
-            $affaire->setfacture($facture);
-        }
         $form->handleRequest($request);
 
 
@@ -62,8 +58,17 @@ class FactureController extends Controller
                 $facture->addService($service);
                 $prixtotal += $service->getPrix();
             }
+            //creationde l'affaire
+            $affaire = new Affaire($this->getUser());
+            $affaire->setContact($form->get('contact')->getData());
+            $affaire->setRef($facture->getRef());
+            $affaire->setEtat('En attente');
+            $facture->setAffaire($affaire);
             $facture->setPrixtotal($prixtotal);
+            $em->persist($affaire);
             $em->persist($facture);
+            $this->addFlash('success','facture crée');
+            $this->addFlash('success','Affaire crée');
             $em->flush();
 
             /*
@@ -121,6 +126,7 @@ class FactureController extends Controller
     {
         $deleteForm = $this->createDeleteForm($facture);
         $editForm = $this->createForm('AppBundle\Form\FactureType', $facture);
+        $editForm->remove('contact');
         $editForm->handleRequest($request);
 
 
@@ -151,10 +157,11 @@ class FactureController extends Controller
             }*/
 
             $facture->setPrixtotal($prixtotal);
+            $facture->getAffaire()->setRef($facture->getRef());
             $em->persist($facture);
 
             $em->flush();
-
+            $this->addFlash('success','facture modifié');
             return $this->redirectToRoute('facture_show', array('id' => $facture->getId()));
         }
 
@@ -180,6 +187,7 @@ class FactureController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($facture);
             $em->flush($facture);
+            $this->addFlash('error','facture supprimé');
         }
 
         return $this->redirectToRoute('facture_index');

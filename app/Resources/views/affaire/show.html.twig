@@ -45,28 +45,18 @@
                               {% endif %}
                           </td>
                         </tr>
-                        <tr>
+                       <tr>
                             <th>action</th>
                             <td>{% if affaire.devis %}
                                     <a class="btn btn-primary" href="{{ path('devis_show',{'id':affaire.devis.id}) }}">Consulter Devis</a>
-                                {% else %}
-                                    <div class="btn-group">
-                                        <a class="btn btn-primary" href="{{ path('devis_new',{'id':affaire.id}) }}">Ajouter un devis</a>
-                                    </div>
+
                                 {% endif %}
                                 {% if affaire.commande %}
                                     <a class="btn btn-primary" href="{{ path('commande_show',{'id':affaire.commande.id}) }}">Consulter Commande</a>
-                                {% else %}
-                                    <div class="btn-group">
-                                      <a class="btn btn-primary" href="{{ path('commande_new',{'id':affaire.id}) }}">Ajouter une commande</a>
-                                    </div>
+
                                 {% endif %}
                                 {% if affaire.facture %}
                                     <a class="btn btn-primary" href="{{ path('facture_show',{'id':affaire.facture.id}) }}">Consulter Facture</a>
-                                {% else %}
-                                    <div class="btn-group">
-                                        <a class="btn btn-primary" href="{{ path('facture_new',{'id':affaire.id}) }}">Ajouter une facture</a>
-                                    </div>
 
                                 {% endif %}
                             </td>

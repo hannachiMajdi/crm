@@ -47,7 +47,7 @@ class OrganisationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($organisation);
             $em->flush($organisation);
-            $this->addFlash('success','Organisation Ajouté');
+            $this->addFlash('success','Organisation Ajoutée');
             return $this->redirectToRoute('organisation_show', array('id' => $organisation->getId()));
         }
 
@@ -87,7 +87,7 @@ class OrganisationController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success','Organisation modifié');
             return $this->redirectToRoute('organisation_show', array('id' => $organisation->getId()));
         }
 
@@ -113,6 +113,7 @@ class OrganisationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($organisation);
             $em->flush($organisation);
+            $this->addFlash('error','Organisation supprimé !');
         }
 
         return $this->redirectToRoute('organisation_index');

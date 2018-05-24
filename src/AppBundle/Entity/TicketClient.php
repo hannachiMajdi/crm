@@ -43,7 +43,7 @@ class TicketClient
     private $type;
     /**
      * @var string
-     * @Assert\NotBlank(message="L'etat  ne doit pas étre vide !")
+     *
      * @ORM\Column(name="etat", type="string", length=255)
      */
     private $etat;

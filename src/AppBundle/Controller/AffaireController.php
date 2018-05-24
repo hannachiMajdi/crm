@@ -31,13 +31,13 @@ class AffaireController extends Controller
         ));
     }
 
-    /**
+    /*
      * Creates a new affaire entity.
      *
      * @Route("/new", name="affaire_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+   /* public function newAction(Request $request)
     {
         $affaire = new Affaire($this->getUser());
         $form = $this->createForm('AppBundle\Form\AffaireType', $affaire);
@@ -55,7 +55,7 @@ class AffaireController extends Controller
             'affaire' => $affaire,
             'form' => $form->createView(),
         ));
-    }
+    }*/
 
     /**
      * Finds and displays a affaire entity.
@@ -87,7 +87,7 @@ class AffaireController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success','Affaire modifié');
             return $this->redirectToRoute('affaire_show', array('id' => $affaire->getId()));
         }
 
@@ -113,6 +113,7 @@ class AffaireController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($affaire);
             $em->flush($affaire);
+            $this->addFlash('error','Affaire supprimé');
         }
 
         return $this->redirectToRoute('affaire_index');

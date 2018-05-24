@@ -92,7 +92,7 @@ class Contact
     /**
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Campagne", inversedBy="contacts")
-     * @ORM\JoinColumn(name="campagne_id", referencedColumnName="id",nullable=true)
+     * @ORM\JoinColumn(name="campagne_id", referencedColumnName="id",nullable=true,onDelete="SET NULL")
      */
     private $campagne;
 

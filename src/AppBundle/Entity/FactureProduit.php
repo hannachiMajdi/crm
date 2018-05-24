@@ -29,7 +29,7 @@ class FactureProduit
     private $quantite;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="commandeProduits")
+     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="factureProduits")
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;

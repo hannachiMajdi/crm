@@ -47,7 +47,7 @@ class ServiceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($service);
             $em->flush($service);
-
+            $this->addFlash('success','service ajouté');
             return $this->redirectToRoute('service_show', array('id' => $service->getId()));
         }
 
@@ -87,8 +87,8 @@ class ServiceController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('service_edit', array('id' => $service->getId()));
+            $this->addFlash('success','service modifié');
+            return $this->redirectToRoute('service_show', array('id' => $service->getId()));
         }
 
         return $this->render('service/edit.html.twig', array(
@@ -113,6 +113,7 @@ class ServiceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($service);
             $em->flush($service);
+            $this->addFlash('success','service supprimé');
         }
 
         return $this->redirectToRoute('service_index');

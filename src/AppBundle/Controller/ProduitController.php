@@ -47,6 +47,7 @@ class ProduitController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($produit);
             $em->flush($produit);
+            $this->addFlash('success','produit ajouté avec succés ');
 
             return $this->redirectToRoute('produit_show', array('id' => $produit->getId()));
         }
@@ -87,8 +88,8 @@ class ProduitController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('produit_edit', array('id' => $produit->getId()));
+            $this->addFlash('success','produit modifié avec succés ');
+            return $this->redirectToRoute('produit_show', array('id' => $produit->getId()));
         }
 
         return $this->render('produit/edit.html.twig', array(
@@ -113,6 +114,7 @@ class ProduitController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($produit);
             $em->flush($produit);
+            $this->addFlash('success','produit supprimé  ');
         }
 
         return $this->redirectToRoute('produit_index');

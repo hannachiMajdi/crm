@@ -48,7 +48,7 @@ class ProfileController  extends Controller
             $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
             $user->setPassword($encoder->encodePassword($user->getPlainPassword(),$user->getSalt()));
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success','votre compte Modifié');
+            $this->addFlash('success','votre compte modifié');
             return $this->redirectToRoute('fos_user_profile_show');
         }
 

@@ -15,7 +15,11 @@ class TicketClientType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre')->add('description',TextareaType::class)->add('date')
+        $builder
+            ->add('contact')
+            ->add('titre')
+            ->add('description',TextareaType::class)
+            ->add('date')
             ->add('type', ChoiceType::class, array('choices' =>
                 array(
                     'Réclamation' => 'Reclamation',

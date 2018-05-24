@@ -79,6 +79,7 @@ class ProspectController extends Controller
         $em->persist($contact);
        // $em->persist($user);
         $em->flush();
+        $this->addFlash('success', 'Prospect '.$prospect->getNom().' transformé en contact');
 
         return $this->redirectToRoute('contact_edit',['id'=>$contact->getId()]);
     }
@@ -139,6 +140,7 @@ class ProspectController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($prospect);
             $em->flush($prospect);
+            $this->addFlash('error', 'Prospect '.$prospect->getNom().' supprimé');
         }
 
         return $this->redirectToRoute('prospect_index');

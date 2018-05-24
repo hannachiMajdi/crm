@@ -37,17 +37,13 @@ class CommandeController extends Controller
     /**
      * Creates a new commande entity.
      *
-     * @Route("/new/{id}", name="commande_new")
+     * @Route("/new", name="commande_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request,Affaire $affaire = null)
+    public function newAction(Request $request)
     {
         $commande = new Commande($this->getUser());
         $form = $this->createForm('AppBundle\Form\CommandeType', $commande);
-        if($affaire){
-            $form->remove('affaire');
-            $affaire->setCommande($commande);
-        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,6 +57,17 @@ class CommandeController extends Controller
                 $prixtotal += $service->getPrix();
             }
             $commande->setPrixtotal($prixtotal);
+            //creation de l'affaire
+
+            $affaire = new Affaire($this->getUser());
+            $affaire->setContact($form->get('contact')->getData());
+            $affaire->setRef($commande->getRef());
+            $affaire->setEtat('En attente');
+            $commande->setAffaire($affaire);
+            $em->persist($commande);
+            $em->persist($affaire);
+            $this->addFlash('success','commande crée');
+            $this->addFlash('success','Affaire crée');
             $em->persist($commande);
             $em->flush();
             $this->addFlash('success','Commande Ajouté');
@@ -119,6 +126,7 @@ class CommandeController extends Controller
     {
         $deleteForm = $this->createDeleteForm($commande);
         $editForm = $this->createForm('AppBundle\Form\CommandeType', $commande);
+        $editForm->remove('contact');
         $editForm->handleRequest($request);
 
          $oldServices = new ArrayCollection();
@@ -161,9 +169,10 @@ class CommandeController extends Controller
 
 
              $commande->setPrixtotal($prixtotal);
+             $commande->getAffaire()->setRef($commande->getRef());
              $em->persist($commande);
-            $em->flush();
-
+             $em->flush();
+             $this->addFlash('success','commande modifié');
              return $this->redirectToRoute('commande_show', array('id' => $commande->getId()));
          }
 
@@ -189,6 +198,7 @@ class CommandeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($commande);
             $em->flush($commande);
+            $this->addFlash('error','commande supprimé');
         }
 
         return $this->redirectToRoute('commande_index');

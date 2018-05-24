@@ -57,18 +57,19 @@ class Devis
 
 
     /**
-     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="devis", cascade={"persist", "remove", "merge"} )
+     * @ORM\OneToMany(targetEntity="DevisProduit", mappedBy="devis", cascade={"persist", "remove"} )
      */
     private $devisProduits;
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Service", mappedBy="deviss", cascade={"persist", "remove", "merge"})
+     * @ORM\ManyToMany(targetEntity="Service", mappedBy="deviss")
      */
     private $services;
     /**
      *
-     * @ORM\OneToOne(targetEntity="Affaire", mappedBy="devis", cascade={"persist", "remove", "merge"})
+     * @ORM\OneToOne(targetEntity="Affaire", inversedBy="devis", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="affaire_id", referencedColumnName="id",nullable=true)
      */
     private $affaire;
     /**
